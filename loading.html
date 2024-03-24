@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando...</title>
+    <link href="https://fonts.cdnfonts.com/css/myriad-pro" rel="stylesheet">
+    <style>
+        /* Estilos para a página de carregamento */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Myriad Pro', sans-serif;
+            background-color: #afafaf; /* Cor de fundo do macOS */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Torna a tela de carregamento em tela cheia */
+        }
+
+        .macos-loading-screen {
+            text-align: center;
+        }
+
+        .logo img {
+            width: 150px; /* Tamanho do logo */
+            border-radius: 45px; /* Borda arredondada */
+        }
+
+        .progress-outer {
+            width: 300px; /* Largura da barra de progresso */
+            height: 10px; /* Altura da barra de progresso */
+            background-color: #ffffff; /* Cor de fundo da barra de progresso */
+            border-radius: 5px; /* Borda arredondada */
+            overflow: hidden; /* Oculta o excesso da barra de progresso */
+            margin-top: 20px; /* Espaçamento entre o logo e a barra de progresso */
+        }
+
+        .progress-inner {
+            width: 0; /* Largura inicial da barra de progresso */
+            height: 100%; /* Altura da barra de progresso */
+            background-color: #2c2c2c; /* Cor da barra de progresso (azul do macOS) */
+            border-radius: 5px; /* Borda arredondada */
+            transition: width 1s ease-in-out; /* Animação de preenchimento */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="macos-loading-screen">
+        <div class="logo">
+            <img src="CASTORE.png" alt="Logo">
+        </div>
+        <div class="progress-outer">
+            <div class="progress-inner"></div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const progressBar = document.querySelector('.progress-inner');
+            let width = 0;
+            const interval = setInterval(function() {
+                if (width >= 100) {
+                    clearInterval(interval);
+                    window.location.href = "site.html"; // Redireciona para a seção apple
+                } else {
+                    width++;
+                    progressBar.style.width = width + '%';
+                }
+            }, 100); // Atualiza a barra de progresso a cada 350ms
+        };
+  </script>
+    <script>
+        // Função para exibir os produtos postados
+        function exibirProdutosPostados(produtos) {
+            const produtosPostados = document.getElementById('produtosPostados');
+            produtosPostados.innerHTML = ''; // Limpa a lista antes de atualizar
+
+            produtos.forEach((produto, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <img src="${produto.imagem}" alt="${produto.descricao}">
+                    <h3>${produto.descricao}</h3>
+                    <p>Tipo: ${produto.tipo}</p>
+                    <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
+                    <p>${produto.descricao}</p>
+                `;
+                produtosPostados.appendChild(li);
+            });
+        }
+        
+        // Chamada para exibir os produtos postados quando a página carregar
+        exibirProdutosPostados(produtos);
+    </script>
+</body>
+</html>

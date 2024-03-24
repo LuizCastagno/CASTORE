@@ -1,0 +1,74 @@
+/* Estilos gerais */
+@import url('https://fonts.cdnfonts.com/css/myriad-pro');
+
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("fundo.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  font-size: 21px; /* Tamanho de fonte base */
+  font-family: 'Myriad Pro', sans-serif;
+  background-size: cover;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center; /* Centraliza o texto e a logo */
+}
+
+header .logo {
+  display: block;
+  margin: 0 auto 20px; /* Centraliza a logo e adiciona espaço abaixo */
+  border-radius: 55px;  /* Adiciona bordas arredondadas */
+  overflow: hidden; /* Garante que a imagem não ultrapasse as bordas */
+}
+
+header .logo img {
+  display: inline-flexbox;
+  width: auto; /* Ajuste o tamanho conforme necessário */
+  height: auto;
+  border-radius: 55px;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px;
+}
+
+header nav ul li {
+  display: inline-block;
+  margin: 0;
+  font-size: 25px;
+}
+
+.product {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.product img {
+  max-width: 45%;
+  border-radius: 55px;
+  height: auto;
+}
+
+.footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px 0;
+  text-align: center;
+}
+
+header nav ul li a {
+  color: #ccc; /* Cor cinza claro */
+}

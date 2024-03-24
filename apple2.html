@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/myriad-pro" rel="stylesheet">
+    <title>Apple</title>
+    <link rel="icon" type="icon" href="CASTORE.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="wrapper">
+            <img src="CASTORE.png" alt="CASTORE Logo" class="logo">
+            <h1>Apple</h1>
+            <nav>
+                <ul>
+                    <li><a href="site.html">Início</a></li>
+                    <li><a href="#iPhone">iPhone</a></li>
+                    <li><a href="#iPad">iPad</a></li>
+                    <li><a href="#Mac">Mac</a></li>
+                    <li><a href="#MacBook-Air">MacBook Air</a></li>
+                    <li><a href="#MacBook-Pro">MacBook Pro</a></li>
+                    <li><a href="#AirPods-Pro">AirPods Pro</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+   <!-- Main Content -->
+<main>
+    <section id="iPhone" class="product-section">
+        <h2>iPhone</h2>
+        <!-- Lista de iPhones -->
+        <div class="iPhone" id="iPhone">
+            <!-- Conteúdo existente -->
+        </div>
+        <!-- Adicione mais iPhones aqui -->
+    </section>
+
+    <section id="iPad" class="product-section">
+        <h2>iPad</h2>
+        <!-- Lista de iPads -->
+        <div class="iPad" id="iPad">
+            <!-- Conteúdo existente -->
+        </div>
+    </section>
+
+    <section id="Mac" class="product-section">
+        <h2>Mac</h2>
+        <!-- Lista de Macs -->
+        <div class="Mac" id="Mac">
+            <!-- Conteúdo existente -->
+        </div>
+        <!-- Adicione mais aqui -->
+    </section>
+
+        <section id="MacBook Air" class="product-section">
+            <h2>MacBook Air</h2>
+            <!-- Lista de MacBook Air -->
+            <div class="MacBook-Air" id="MacBook-Air">
+                <!-- Conteúdo existente -->
+            </div>
+            <!-- Adicione mais aqui -->
+        </section>
+    
+        <section id="MacBook Pro" class="product-section">
+            <h2>MacBook Pro</h2>
+            <!-- Lista de iPhones -->
+            <div class="MacBook-Pro" id="MacBook-Pro">
+                <!-- Conteúdo existente -->
+            </div>
+            <!-- Adicione mais iPhones aqui -->
+        </section>
+    
+        <section id="AirPods Pro" class="product-section">
+            <h2>AirPods Pro</h2>
+            <!-- Lista de AirPods Pro -->
+            <div class="AirPods-Pro" id="AirPods-Pro">
+                <!-- Conteúdo existente -->
+            </div>
+            <!-- Adicione mais AirPods Pro aqui -->
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Castore - Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Função para carregar os produtos postados na página
+        function carregarProdutosPostados() {
+            const produtosPostados = JSON.parse(localStorage.getItem('historicoPostagens'));
+            if (produtosPostados) {
+                exibirProdutosPostados(produtosPostados);
+            }
+        }
+
+        // Função para exibir os produtos postados
+        function exibirProdutosPostados(produtos) {
+            // Mapear os tipos de produtos para suas respectivas seções
+            const secoes = {
+                'iPhone': 'iPhone',
+                'iPad': 'iPad',
+                'Mac': 'Mac',
+                'MacBook Air': 'MacBook-Air',
+                'MacBook Pro': 'MacBook-Pro',
+                'AirPods Pro': 'AirPods-Pro',
+            };
+
+            // Iterar sobre os produtos e exibi-los nas seções corretas
+            produtos.forEach(produto => {
+                const secaoId = secoes[produto.tipo.toLowerCase()];
+                const secao = document.getElementById(secaoId);
+                if (secao) {
+                    const divProduto = document.createElement('div');
+                    divProduto.classList.add('product');
+
+                    // Construir o HTML do produto
+                    const htmlProduto = `
+                        <img src="${produto.imagem}" alt="${produto.descricao}">
+                        <h3>${produto.descricao}</h3>
+                        <p>Preço: R$ ${produto.preco.toFixed(2)}</p>
+                        <p>${produto.descricao}</p>
+                    `;
+
+                    // Adicionar o HTML ao elemento da seção
+                    divProduto.innerHTML = htmlProduto;
+                    secao.appendChild(divProduto);
+                }
+            });
+        }
+
+        // Carregar produtos ao carregar a página
+        carregarProdutosPostados();
+    </script>
+    <script src="produtos.py"></script>
+</body>
+</html>

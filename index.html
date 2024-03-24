@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="CASTORE.png">
+    <title>Produtos - Gerenciador (ADMINISTRADOR)</title>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/myriad-pro');
+        body {
+            font-family: 'Myriad Pro', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('/Users/LuizCastagno/Desktop/castore/FLASK/Template/fundo.png'); /* Corrigido */
+            background-size: cover; /* Para cobrir toda a área do corpo */
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .input-container label {
+            margin-bottom: 5px;
+        }
+
+        .input-container input {
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+    <!-- Adicionando jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.3/jspdf.umd.min.js"></script>
+</head>
+<body>
+<h1>Gerenciador - (ADMINISTRADOR)</h1>
+<!-- Formulário para adicionar produto -->
+<h2>Adicionar Produto</h2>
+<form id="addForm" action="/adicionar_produto" method="post" enctype="multipart/form-data">
+    <label for="tipo">Tipo:</label>
+    <select id="tipo" name="tipo" required>
+        <option value="iPhone">iPhone</option>
+        <option value="iPad">iPad</option>
+        <option value="Mac">Mac</option>
+        <option value="MacBook Air">MacBook Air</option>
+        <option value="MacBook Pro">MacBook Pro</option>
+        <option value="AirPods">AirPods</option>
+    </select><br>
+    <label for="preco">Preço:</label>
+    <input type="number" id="preco" name="preco" step="0.01" required><br>
+    <label for="descricao">Descrição:</label>
+    <input type="text" id="descricao" name="descricao" required><br>
+    <label for="imagem">Imagem:</label>
+    <input type="file" id="imagem" name="imagem" accept="image/*" required><br>
+    <button type="submit">Adicionar Produto</button>
+</form>
+
+<!-- Lista de produtos -->
+<h2>Lista de Produtos</h2>
+<ul id="produtoList"></ul>
+
+<!-- Histórico de produtos registrados -->
+<h2>Histórico de Produtos Registrados</h2>
+<ul id="historicoList"></ul>
+
+<!-- Botão para postar produtos na página de produtos -->
+<button id="postarProdutos" onclick="postarProdutos()">Postar Produtos</button>
+
+<!-- Botão para baixar o histórico de postagens -->
+<button id="downloadHistorico" onclick="downloadHistorico()">Baixar Histórico</button>
+
+<script>
+    // Função para postar produtos na página de produtos
+    function postarProdutos() {
+        fetch('/historico_postagens')
+            .then(response => response.json())
+            .then(data => {
+                localStorage.setItem('historico_postagens', JSON.stringify(data));
+                window.location.href = '/Users/LuizCastagno/Desktop/castore/apple2.html'; // Certifique-se de que esta é a URL correta
+            })
+            .catch(error => console.error('Erro:', error));
+    }
+
+    // Função para baixar o histórico de postagens em PDF
+    function downloadHistorico() {
+        const historicoData = JSON.parse(localStorage.getItem('historico_postagens'));
+        const doc = new jsPDF();
+        let y = 10;
+
+        historicoData.forEach(item => {
+            doc.text(`Tipo: ${item.tipo}`, 10, y);
+            doc.text(`Preço: ${item.preco}`, 10, y + 10);
+            doc.text(`Descrição: ${item.descricao}`, 10, y + 20);
+            y += 40; // Incrementa a posição Y para a próxima entrada
+        });
+
+        doc.save('historico_produtos.pdf');
+    }
+
+    // Função para obter os produtos do servidor Flask
+    function getProducts() {
+        fetch('/historico_postagens')
+            .then(response => response.json())
+            .then(data => {
+                const productList = document.getElementById('produtoList');
+                productList.innerHTML = ''; // Limpar a lista antes de adicionar os produtos
+
+                data.forEach(product => {
+                    const listItem = document.createElement('li');
+                    listItem.innerHTML = `
+                        <img src="${product.imagem}" alt="${product.tipo}">
+                        <div>
+                            <h3>${product.tipo}</h3>
+                            <p>${product.descricao}</p>
+                            <p>Preço: ${product.preco}</p>
+                        </div>
+                    `;
+                    productList.appendChild(listItem);
+                });
+            })
+            .catch(error => console.error('Erro ao obter produtos:', error));
+    }
+
+    // Chamar a função para obter os produtos ao carregar a página
+    window.onload = function() {
+        getProducts();
+    };
+    </script>
+</body>
+</html>
